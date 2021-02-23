@@ -36,7 +36,7 @@ Function Get-PVSRAMCacheUsage {
 
     [int] $systemInformationClass = 0x16; # SystemPoolTagInformation
     [IntPtr] $queryPtr = 0; # Output gets written to this pointer location
-    [uint32] $queryResult;
+    [uint32] $queryResult = 0;
     [int] $length = 0x1000; # Starting memory allocation
     [int] $returnLength = 0; # Length returned
 
@@ -48,7 +48,7 @@ Function Get-PVSRAMCacheUsage {
 
         $length = ($returnLength + 0xffff);
 
-        # Add a check here for anything that isn't success for InfoLengthMismatch
+        #TODO: Add a check here for anything that isn't success for InfoLengthMismatch
 
     } while ($queryResult -eq 3221225476) # Check for the NTSTATUS result of "InfoLengthMismatch"
 
@@ -59,10 +59,8 @@ Function Get-PVSRAMCacheUsage {
     $poolTagInformation = [System.Runtime.InteropServices.Marshal]::PtrToStructure($queryPtr, [System.Type]$poolTagInformation.GetType());
 
     if ($poolTagInformation.PoolTagCount -lt 1) {
-        # There's never going ot be a situation where there are no pooltags on a windows machine
-
+        # There's never going ot be a situation where there are no pooltags on a machine
         throw "No poolTagInformation returned"
-
     }
 
 
@@ -84,25 +82,25 @@ Function Get-PVSRAMCacheUsage {
         $tagName = -join $returnedTag.tag
 
         if ($tagName -eq "VhdR") {
-
             $PVSVhdR = $returnedTag
-
-
         }
+
         elseif ($tagName -eq "VhdL") {
-
             $PVSVhdL = $returnedTag
-
         }
 
         $memoryOffset += 40; # Increase offset by the length of an entry
 
     }
 
-    return $PVSVhdR.NonPageUsed.ToUInt64()
+   if($PVSVhdR.Tag -eq $null) {
+
+    return -1; # Didn't find PVS RAM Cache Driver
+
+    }else {
+
+    return $PVSVhdR.NonPageUsed.ToUInt64();
+
+    }
 
 }
-
-
-
-
