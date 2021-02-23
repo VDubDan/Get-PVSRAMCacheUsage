@@ -92,7 +92,7 @@ Function Get-PVSRAMCacheUsage {
     # Iterate through the returned memory, and try and locate the PVS Pool Tags
 
     [PInvoke.ntdll+SYSTEM_POOLTAG] $PVSVhdR = Get-Default PInvoke.ntdll+SYSTEM_POOLTAG
-    [PInvoke.ntdll+SYSTEM_POOLTAG] $PVSVhdL = Get-Default PInvoke.ntdll+SYSTEM_POOLTAG
+    [PInvoke.ntdll+SYSTEM_POOLTAG] $PVSVhdL = Get-Default PInvoke.ntdll+SYSTEM_POOLTAG # This script doesn't actually do anything with VhdL, but it's here for completeness
 
     $memoryOffset = 48; #Initial memory offset - 48 is the length of the SYSTEM_POOLTAG_INFORMATION struct, so serves a preamble we need to ignore
 
