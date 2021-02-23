@@ -1,3 +1,28 @@
+<#
+.Synopsis
+   Returns the current usage of the Citrix PVS RAM Cache feature
+.DESCRIPTION
+   This script was written based on information provided in Citrix documentation, detailing how to use Poolmon.exe from the Windows SDK to interrogate the Citrix PVS RAM Cache.
+   https://docs.citrix.com/en-us/advanced-concepts/implementation-guides/digging-into-pvs-with-poolmon-and-wpa.html
+.EXAMPLE
+   Get-PVSRAMCacheUsage
+.INPUTS
+   None
+.OUTPUTS
+   RAM Cache Usage in Bytes
+.NOTES
+   Author: Dan Herman
+   Date: 23/02/21
+
+   This script uses some pretty heavy unamanaged Windows API interaction and I couldn't have written it without the following help:
+   
+   https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/pooltag.htm
+   https://labs.nettitude.com/blog/using-pooltags-to-fingerprint-hosts/
+   
+   For brevity, rather than import a raft of definition for NTSTATUS and SYSTEM_INFORMATION I have hard coded the references.		
+#>
+
+
 Function Get-Default([Type] $t) { [Array]::CreateInstance($t, 1)[0] }
 
 Function Get-PVSRAMCacheUsage {
