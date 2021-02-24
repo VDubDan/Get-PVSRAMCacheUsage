@@ -101,11 +101,11 @@ Function Get-PVSRAMCacheUsage {
 
         $tagName = -join $returnedTag.tag
 
-        if ($tagName -eq "VhdR") {
+        if ($tagName -ceq "VhdR") {
             $PVSVhdR = $returnedTag
         }
 
-        elseif ($tagName -eq "VhdL") {
+        elseif ($tagName -ceq "VhdL") {
             $PVSVhdL = $returnedTag
         }
 
