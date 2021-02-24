@@ -119,7 +119,7 @@ Function Get-PVSRAMCacheUsage {
 
     }else {
 
-    return $PVSVhdR.NonPageUsed.ToUInt64();
+    return $PVSVhdR.NonPageUsed;
 
     }
 
