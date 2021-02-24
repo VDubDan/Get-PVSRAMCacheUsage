@@ -41,18 +41,13 @@ Function Get-PVSRAMCacheUsage {
             [FieldOffset(0)] public int PoolTagCount;
         }
 
-        [StructLayout(LayoutKind.Sequential, Size = 0x28)]
+        [StructLayout(LayoutKind.Explicit, Size = 0x28)]
         public struct SYSTEM_POOLTAG
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] 
-            public char[] tag;
-
-            public UInt32 PageAlloc;
-            public UInt32 PageFree;
-            public UIntPtr PageUsed;
-            public UInt32 NonPageAlloc;
-            public UInt32 NonPageFree;
-            public UIntPtr NonPageUsed;
+            [FieldOffset(0)] public char[] tag;
+            [FieldOffset(0x10)] public UInt64 PagedUsed;
+            [FieldOffset(0x20)] public UInt64 NonPageUsed;
         }
 
 '@;
